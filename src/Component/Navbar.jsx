@@ -18,9 +18,8 @@ const Navbar = () => {
         <div className="hidden md:flex gap-8 items-center text-pink-500 font-semibold">
           <Link to="/" className="hover:text-pink-500   btn btn-ghost">HOME</Link>
           
-          <Link to="/portfolio" className="hover:text-pink-500 btn btn-ghost ">OUR PORTFOLIO</Link>
-          <Link to="/team" className="hover:text-pink-500  btn btn-ghost">OUR TEAM</Link>
-          <Link to="/contact" className="hover:text-pink-500  btn btn-ghost">CONTACT US</Link>
+          <Link to="/dashboard" className="hover:text-pink-500 btn btn-ghost ">DASHBOARD</Link>
+        
           <div>
           <Link to="/login">
             <button className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 transition">

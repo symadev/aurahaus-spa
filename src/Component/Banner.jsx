@@ -20,7 +20,7 @@
             From relaxing facials to flawless makeovers, we celebrate every shade of you.
             </p>
             <button className="bg-pink-500 hover:bg-pink-600 transition text-white px-6 py-3 rounded-md font-medium">
-              Get an Appointment
+              Book Our Services
             </button>
           </div>
   

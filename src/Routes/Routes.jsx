@@ -7,6 +7,7 @@ import Home from "../Pages/Home";
 import MainLayout from "../Layout/MainLayout";
 import Login from "../Component/Login";
 import Register from "../Component/Register";
+import Dashboard from "../Component/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,11 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register></Register>,
+      },
+      {
+        path: "/dashboard",
+        element:<Dashboard></Dashboard>,
+        children: [],
       },
     ],
   },
