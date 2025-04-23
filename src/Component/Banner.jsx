@@ -9,7 +9,7 @@
   const Banner = () => {
     return (
       <div className="bg-[#FFF8F5] py-16">
-        <div className="container mx-auto px-4 flex flex-col-reverse md:flex-row items-center gap-12">
+        <div className="container mx-auto px-4  py-10 flex flex-col-reverse md:flex-row items-center gap-12">
           {/* Left text content */}
           <div className="md:w-1/2 text-center md:text-left m-10">
             <h1 className="text-4xl md:text-5xl font-extrabold text-[#111430] leading-tight mb-4">
