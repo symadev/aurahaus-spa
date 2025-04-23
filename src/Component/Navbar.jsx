@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import image from '../assets/icons/nav logo.png'
+import image from '../assets/icons/purlor logo.png'
 
 const Navbar = () => {
   return (
@@ -7,7 +7,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
         <div className="  flex items-center gap-2">
-        
+        <img  className ="w-14"src={image} alt="" />
           <div>
             <h1 className="text-3xl font-bold text-gray-800 leading-4">AuraHaus <span className="text-2xl font-bold text-pink-500  ">Spa</span></h1>
            
