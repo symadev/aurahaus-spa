@@ -19,5 +19,12 @@
         "treatment": "Skin Care Treatment",
         "balance": "$299  ",
         "description": "With well written codes, we build amazing apps for all platforms, mobile and web apps in general."
+    },
+    {
+        "_id": "6430123af5f7e52c91e8fa69",
+        "logo": "../src/assets/icons//purlor logo.png",
+        "treatment": "Pedicure",
+        "balance": "$199  ",
+        "description": "With well written codes, we build amazing apps for all platforms, mobile and web apps in general."
     }
 ]

@@ -29,7 +29,7 @@
             <img
               src={image}
               alt="Beauty Salon"
-              className="rounded-lg"
+              className="rounded-lg shadow-lg"
             />
           </div>
         </div>
