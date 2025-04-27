@@ -5,8 +5,8 @@ const ServiceCardDetails = ({ card }) => {
 
   return (
     <motion.div
-      className="card bg-base-100 w-72 shadow-lg p-6"
-      whileHover={{ scale: 1.05 }}
+      className="card bg-base-100 w-72  shadow-lg p-6"
+      whileHover={{ scale: 1.15 }}
       whileTap={{ scale: 0.95 }}
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 2, y: 0 }}
