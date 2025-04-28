@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useContext } from 'react';
 import { AuthContext } from '../Provider/AuthContext';
 import Swal from 'sweetalert2';
+import axios from 'axios'; // Add this import
 
 const Register = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -19,24 +20,42 @@ const Register = () => {
         const loggedUser = result.user;
         console.log(loggedUser);
 
-        // Reset form and show success message
-        reset();
-        Swal.fire({
-          title: "Register Done",
-          width: 600,
-          padding: "3em",
-          color: "#716add",
-          background: "#fff url(/images/trees.png)",
-          backdrop: `
-            rgba(0,0,123,0.4)
-            url("/images/nyan-cat.gif")
-            left top
-            no-repeat
-          `
-        });
+        // Create user object for MongoDB
+        const newUser = {
+          name: data.name,
+          email: data.email,
+          role: 'admin', // Set role to admin for testing
+          createdAt: new Date()
+        };
 
-        // Redirect user to the homepage after successful registration
-        navigate('/');
+        // Save user to MongoDB
+        axios.post('http://localhost:5000/users', newUser)
+          .then(res => {
+            console.log("User saved to MongoDB:", res.data);
+
+            // Reset form and show success message
+            reset();
+            Swal.fire({
+              title: "Register Done",
+              width: 600,
+              padding: "3em",
+              color: "#716add",
+              background: "#fff url(/images/trees.png)",
+              backdrop: `
+                rgba(0,0,123,0.4)
+                url("/images/nyan-cat.gif")
+                left top
+                no-repeat
+              `
+            });
+
+            // Redirect user to the homepage after successful registration
+            navigate('/');
+          })
+          .catch(err => {
+            console.error("Error saving user to MongoDB:", err);
+            Swal.fire('Error', 'Failed to save user data', 'error');
+          });
       })
       .catch((error) => {
         console.error('Error creating user:', error);
@@ -122,9 +141,7 @@ const Register = () => {
 
             <p className="text-center text-sm p-4">
               Already have an account?
-              <a className="underline">
-                <Link to="/login">Now login</Link>
-              </a>
+              <Link to="/login" className="underline ml-1">Now login</Link>
             </p>
           </div>
         </div>

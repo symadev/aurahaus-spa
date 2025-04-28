@@ -12,6 +12,7 @@ import AddService from "../Component/AddService";
 import MakeAdmin from "../Component/MakeAdmin";
 import Book from "../Component/Book";
 import ReviewForm from "../Component/ReviewForm";
+import PrivateAdminRoute from "../Component/PrivateAdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element:<Dashboard></Dashboard>,
+        element:<PrivateAdminRoute><Dashboard></Dashboard></PrivateAdminRoute>,
         children: [
           {
             path: "AddServices",
