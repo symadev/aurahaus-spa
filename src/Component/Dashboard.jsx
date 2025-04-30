@@ -1,5 +1,5 @@
-import { FaBook, FaHome, FaList, FaServicestack, } from "react-icons/fa";
-import { FaFirstOrderAlt, FaPeopleGroup, FaReadme, } from "react-icons/fa6";
+import { FaBook, FaHome,  FaServicestack, } from "react-icons/fa";
+import { FaFirstOrderAlt,  FaPeopleGroup, FaReadme, FaTableList, } from "react-icons/fa6";
 import { NavLink, Outlet } from "react-router-dom";
 
 import logo from '../assets/icons/purlor logo.png'
@@ -17,24 +17,8 @@ const Dashboard = () => {
         </div>
 
         <ul className="menu px-4 text-sm space-y-2 font-medium">
-          <li>
-            <NavLink to="/dashboard/OrderList" className="flex items-center gap-3 text-pink-500">
-              <FaList /> Order list
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/AddServices" className="flex items-center gap-3 text-gray-600 hover:text-pink-500">
-              <FaServicestack /> Add service
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/MakeAdmin" className="flex items-center gap-3 text-gray-600 hover:text-pink-500">
-              <FaPeopleGroup /> Make Admin
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink to="/dashboard/Book" className="flex items-center gap-3 text-gray-600 hover:text-pink-500">
+        <li>
+            <NavLink to="/dashboard/Book" className="flex items-center gap-3 text-pink-500 hover:text-pink-500">
               <FaFirstOrderAlt /> Book
             </NavLink>
           </li>
@@ -43,6 +27,23 @@ const Dashboard = () => {
               <FaBook /> Booking List
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/dashboard/AddServices" className="flex items-center gap-3 text-gray-600 hover:text-pink-500">
+              <FaServicestack /> Add service
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/ManageBooking" className="flex items-center gap-3 text-gray-600 hover:text-pink-500">
+              <FaTableList/> Manage Booking
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/MakeAdmin" className="flex items-center gap-3 text-gray-600 hover:text-pink-500">
+              <FaPeopleGroup /> Make Admin
+            </NavLink>
+          </li>
+
+          
           <li>
             <NavLink to="/dashboard/Reviews" className="flex items-center gap-3 text-gray-600 hover:text-pink-500">
               <FaReadme /> Review

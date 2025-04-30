@@ -9,7 +9,8 @@ const UseAdmin = () => {
 
   useEffect(() => {
     if (user) {
-      axios.get(`/users/admin/${user.email}`)
+        axios.get(`http://localhost:5000/users/admin/${user.email}`)
+
         .then(res => {
           setIsAdmin(res.data.admin);
           setIsAdminLoading(false);
