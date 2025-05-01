@@ -9,7 +9,11 @@ const UseAdmin = () => {
 
   useEffect(() => {
     if (user) {
-        axios.get(`http://localhost:5000/users/admin/${user.email}`)
+        axios.get(`http://localhost:5000/users/admin/${user.email}`,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access-token")}`
+          }
+        })
 
         .then(res => {
           setIsAdmin(res.data.admin);

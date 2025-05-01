@@ -9,8 +9,8 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { app } from "../Component/Firebase/Firebase";
+import axios from "axios"; // Make sure axios is installed
 
-// Create Context
 export const AuthContext = createContext(null);
 
 const auth = getAuth(app);
@@ -37,13 +37,30 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     setLoading(true);
+    localStorage.removeItem("access-token");
     return signOut(auth);
   };
 
+  // Get JWT token when user is authenticated
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser || null);
+      setUser(currentUser);
       setLoading(false);
+
+      if (currentUser) {
+        const userInfo = { email: currentUser.email };
+
+        axios
+          .post("http://localhost:5000/jwt", userInfo)
+          .then((res) => {
+            localStorage.setItem("access-token", res.data.token);
+          })
+          .catch((err) => {
+            console.error("JWT error:", err);
+          });
+      } else {
+        localStorage.removeItem("access-token");
+      }
     });
 
     return () => unsubscribe();
