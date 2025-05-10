@@ -13,6 +13,7 @@ import MakeAdmin from "../Component/MakeAdmin";
 import Book from "../Component/Book";
 import ReviewForm from "../Component/ReviewForm";
 import PrivateAdminRoute from "../Component/PrivateAdminRoute";
+import BookingList from "../Component/bookingList";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
           {
             path: "Book",
             element: <Book></Book>,
+          },
+          {
+            path: "bookingList",
+            element:<BookingList></BookingList>,
           },
           {
             path: "Reviews",

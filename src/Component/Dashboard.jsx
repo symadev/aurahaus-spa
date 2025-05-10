@@ -23,7 +23,7 @@ const Dashboard = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/BookingList" className="flex items-center gap-3 text-gray-600 hover:text-pink-500">
+            <NavLink to="/dashboard/bookingList" className="flex items-center gap-3 text-gray-600 hover:text-pink-500">
               <FaBook /> Booking List
             </NavLink>
           </li>
