@@ -2,7 +2,8 @@ import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthContext"; // তোমার path অনুযায়ী adjust করবে
 
 const UseAuth = () => {
-  return useContext(AuthContext);
+  const auth = useContext(AuthContext);
+  return auth;
 };
 
 export default UseAuth;

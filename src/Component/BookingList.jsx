@@ -1,57 +1,40 @@
-import { useEffect, useState } from 'react';
+// BookingList.jsx
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const BookingList = () => {
-  const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+function BookingList() {
+  const [payments, setPayments] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem('access-token'); // Get the JWT from localStorage
-
-    if (!token) {
-      setError('No access token found. Please log in.');
-      setLoading(false);
-      return;
-    }
-
+    const token = localStorage.getItem('access-token');
     axios.get('http://localhost:5000/bookingList', {
-      headers: {
-        Authorization: `Bearer ${token}`, // Correct token inclusion with backticks for interpolation
-      },
-    })
-    .then(res => {
-      setBookings(res.data); // Set the fetched bookings
-      setLoading(false); // Done loading
-    })
-    .catch(err => {
-      console.error("Booking fetch error:", err);
-      setError('Failed to load bookings. Please try again later.');
-      setLoading(false); // Done loading
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(response => {
+      console.log('API response:', response.data);
+setPayments(Array.isArray(response.data) ? response.data : []);
+
+    }).catch(err => {
+      console.error('API call failed:', err);
     });
   }, []);
 
-  if (loading) return <p>Loading bookings...</p>;
-
   return (
-    <div>
-      {error && <p className="text-red-500">{error}</p>} {/* Display any errors */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-        {bookings.map(booking => (
-          <div
-            key={booking._id}
-            className="bg-white p-4 rounded-lg shadow border border-gray-200"
-          >
-            <h2 className="text-lg font-bold text-pink-600">{booking.treatment}</h2>
-            <p><strong>Email:</strong> {booking.email}</p>
-            <p><strong>Transaction ID:</strong> {booking.transactionId}</p>
-            <p><strong>Amount:</strong> ${(booking.price / 100).toFixed(2)}</p>
-            <p><strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}</p>
+    <div className="container mx-auto px-4 py-6">
+      <h2 className="text-2xl font-semibold mb-4">Your Booked Services</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {payments.map(payment => (
+          <div key={payment._id} className="bg-white shadow-md rounded-lg p-4">
+            <h3 className="text-lg font-bold mb-2 text-pink-500">{payment.service}</h3>
+            <p><strong>User:</strong> {payment.name}</p>
+            <p><strong>Email:</strong> {payment.email}</p>
+            <p><strong>Transaction ID:</strong> {payment.transactionId}</p>
+            <p><strong>Price:</strong> ${payment.price}</p>
+            <p><strong>Date:</strong> {new Date(payment.date).toLocaleDateString()}</p>
           </div>
         ))}
       </div>
     </div>
   );
-};
+}
 
 export default BookingList;

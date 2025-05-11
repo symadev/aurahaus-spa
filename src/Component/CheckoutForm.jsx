@@ -1,94 +1,106 @@
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useState } from "react";
-import axios from "axios";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutForm = ({ formData }) => {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
-  const [error, setError] = useState('');
-  const [processing, setProcessing] = useState(false);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (!stripe || !elements) return;
+  const [clientSecret, setClientSecret] = useState('');
+  const [processing, setProcessing] = useState(false);
+  const [cardError, setCardError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [transactionId, setTransactionId] = useState('');
+
+  const price = 50; // USD
+  const amountInCents = price * 100;
+
+  useEffect(() => {
+    if (price > 0) {
+      axios.post('http://localhost:5000/create-payment-intent', { amount: amountInCents })
+        .then(res => {
+          setClientSecret(res.data.clientSecret);
+        })
+        .catch(err => {
+          console.error("Failed to get client secret", err);
+        });
+    }
+  }, [price]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!stripe || !elements || !clientSecret) return;
 
     const card = elements.getElement(CardElement);
-    setProcessing(true);
+    if (!card) return;
 
-    // 1. Create PaymentIntent
-    const { data } = await axios.post('http://localhost:5000/create-payment-intent', {
-      amount: 1000
+    const { error: methodError, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card,
+      billing_details: {
+        name: formData.name,
+        email: formData.email,
+      },
     });
 
-    // 2. Confirm card payment
-    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(data.clientSecret, {
+    if (methodError) {
+      setCardError(methodError.message);
+      return;
+    }
+
+    setProcessing(true);
+
+    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
         card,
         billing_details: {
           name: formData.name,
-          email: formData.email
-        }
-      }
+          email: formData.email,
+        },
+      },
     });
 
     if (confirmError) {
-      setError(confirmError.message);
+      setCardError(confirmError.message);
       setProcessing(false);
-      return;
-    }
+    } else if (paymentIntent.status === 'succeeded') {
+      setSuccess('Payment successful!');
+      setTransactionId(paymentIntent.id);
 
-    // 3. Save booking
-    if (paymentIntent.status === 'succeeded') {
-      const paymentRecord = {
+      // Save to MongoDB
+      const paymentData = {
         name: formData.name,
         email: formData.email,
         service: formData.service,
+        price:formData.amount,
         transactionId: paymentIntent.id,
-        price: 1000,
         date: new Date(),
-        status: 'paid'
       };
-      const token = localStorage.getItem('access-token');
 
-      const res = await axios.post('http://localhost:5000/payments', paymentRecord, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-
-
-
-      
-      if (res.data.insertedId) {
-        Swal.fire('Success!', 'Payment recorded successfully.', 'success');
-        navigate('/dashboard/bookingList');
-      } else {
-        Swal.fire('Error!', 'Payment succeeded but saving failed.', 'error');
-      }
+      axios.post('http://localhost:5000/payments', paymentData)
+        .then(() => {
+          console.log('Payment saved');
+          navigate('/dashboard/bookingList');
+        });
     }
 
     setProcessing(false);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-      <CardElement options={{
-        style: {
-          base: {
-            fontSize: '16px',
-            color: '#424770',
-            '::placeholder': { color: '#aab7c4' },
-          },
-          invalid: { color: '#9e2146' },
-        },
-      }} />
-      {error && <p className="text-red-500">{error}</p>}
-      <button type="submit" disabled={!stripe || processing} className="btn btn-primary mt-4">
-        {processing ? 'Processing…' : 'Pay Now'}
+    <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+      <CardElement className="p-4 border rounded-lg" />
+      {cardError && <p className="text-red-500">{cardError}</p>}
+      {success && <p className="text-green-500">✅ {success} | TxID: {transactionId}</p>}
+      <button
+        type="submit"
+        className="btn btn-primary"
+        disabled={!stripe || !clientSecret || processing}
+      >
+        {processing ? 'Processing...' : 'Pay Now'}
       </button>
     </form>
   );
