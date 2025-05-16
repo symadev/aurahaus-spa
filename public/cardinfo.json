@@ -1,14 +1,15 @@
 [
     {
         "_id": "6430110af5a7e52ce1e8fa67",
-        "logo": "../src/assets/icons/Group 1372.png",
+        "logo": "../src/assets/icons/Group 1373.png",
+        
         "treatment": "Anti Age Face Treatment",
         "balance": "$199  ",
         "description": "We craft stunning and amazing web UI, using a well drrafted UX to fit your product."
     },
     {
         "_id": "64301123f5a7e52ce1e8fa68",
-        "logo": "../src/assets/icons/Group 1373.png",
+       "logo": "../src/assets/icons/Group 1372.png",
         "treatment": "Hair Color & Styleing",
         "balance": "$99  ",
         "description": "We craft stunning and amazing web UI, using a well drrafted UX to fit your product."
