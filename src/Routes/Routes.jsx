@@ -14,6 +14,7 @@ import Book from "../Component/Book";
 import ReviewForm from "../Component/ReviewForm";
 import PrivateAdminRoute from "../Component/PrivateAdminRoute";
 import BookingList from "../Component/bookingList";
+import ManageBooking from "../Component/ManageBooking";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
           {
             path: "bookingList",
             element:<BookingList></BookingList>,
+          },
+          {
+            path: "ManageBooking",
+            element:<ManageBooking></ManageBooking>,
           },
           {
             path: "Reviews",

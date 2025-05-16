@@ -5,8 +5,13 @@ import axios from 'axios';
 function BookingList() {
   const [payments, setPayments] = useState([]);
 
+
+
   useEffect(() => {
     const token = localStorage.getItem('access-token');
+
+
+    
     axios.get('http://localhost:5000/bookingList', {
       headers: { Authorization: `Bearer ${token}` }
     }).then(response => {
