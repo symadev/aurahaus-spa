@@ -24,9 +24,9 @@ const AddService = () => {
         const newService = {
           name: data.name,
           description: data.description,
+          price: data.price,
           image: imgRes.data.data.display_url,
         };
-
         const serviceRes = await axios.post('http://localhost:5000/services', newService);
 
         if (serviceRes.data.insertedId) {
@@ -49,7 +49,7 @@ const AddService = () => {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-    
+
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -65,6 +65,20 @@ const AddService = () => {
             className="w-full p-2 border rounded"
           />
         </div>
+
+        {/* Price */}
+        <div>
+          <label className="block mb-1">Price</label>
+          <input
+            {...register('price', { required: true, valueAsNumber: true })}
+            type="number"
+            placeholder="Enter price"
+            className="w-full p-2 border rounded"
+            step="0.01"
+            min="0"
+          />
+        </div>
+
 
         {/* Description */}
         <div>

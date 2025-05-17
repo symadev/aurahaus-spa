@@ -4,12 +4,29 @@ import axios from 'axios';
 const ManageBooking = () => {
 
     const [manageItems, setManageItems] = useState([]);
-//get the data
-  useEffect(() => {
-    axios.get('http://localhost:5000/manageItems') // Adjust if using deployed server
-      .then(res => setManageItems(res.data))
-      .catch(err => console.error('Error fetching treatments:', err));
-  }, []);
+
+
+//get the data the fetch the both get item
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const [manageRes, servicesRes] = await Promise.all([
+        axios.get('http://localhost:5000/manageItems'),
+        axios.get('http://localhost:5000/services'),
+      ]);
+
+      // Combine both datasets into one array
+      const combined = [...manageRes.data, ...servicesRes.data];
+      setManageItems(combined);
+    } catch (err) {
+      console.error('Error fetching data:', err);
+    }
+  };
+
+  fetchData();
+}, []);
+
+
 
 
     return (
@@ -27,39 +44,25 @@ const ManageBooking = () => {
        
       </tr>
     </thead>
-    <tbody>
-      {manageItems.map((manageItem,index) => (
-         <tr key={manageItem._id}>
-             <th>{index + 1} </th>
-            
-         <td>
-           <div className="flex items-center gap-3">
-             <div className="avatar">
-               <div className="mask mask-squircle h-12 w-12">
-                 <img
-                   src={manageItem.logo}
-                   alt="Avatar Tailwind CSS Component" />
-               </div>
-             </div>
-            
-           </div>
-         </td>
-         <td>
-           {manageItem.treatment}
-           
-         </td>
-         <td> {manageItem.balance}</td>
-         <td>
-           <p className="box">{manageItem.description}</p>
-         </td>
-        
-       </tr>
-      ))}
-        
-    
-     
-     
-    </tbody>
+  <tbody>
+    {/* ||--> this is called the and  */}
+  {manageItems.map((item, index) => (
+    <tr key={item._id || index}>
+      <th>{index + 1}</th>
+      <td>
+        <div className="avatar">
+          <div className="mask mask-squircle h-12 w-12">
+            <img src={item.logo || item.image} alt="service" />
+          </div>
+        </div>
+      </td>
+      <td>{item.treatment || item.name}</td>
+      <td>${item.balance || item.price}</td>
+      <td>{item.description}</td>
+    </tr>
+  ))}
+</tbody>
+
    
   </table>
 </div>
