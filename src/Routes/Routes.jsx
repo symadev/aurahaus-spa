@@ -37,6 +37,8 @@ const router = createBrowserRouter([
         path: "/dashboard",
         element:<PrivateAdminRoute><Dashboard></Dashboard></PrivateAdminRoute>,
         children: [
+           { index: true, element: <Book /> },
+           //it show the dafault index route is book
           {
             path: "AddServices",
             element: <AddService></AddService>,
@@ -46,6 +48,7 @@ const router = createBrowserRouter([
             element: <MakeAdmin></MakeAdmin>,
           },
           {
+            
             path: "Book",
             element: <Book></Book>,
           },

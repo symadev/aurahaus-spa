@@ -25,7 +25,7 @@ const Register = () => {
         const newUser = {
           name: data.name,
           email: data.email,
-          role: 'admin', // Set role to admin for testing
+          role: 'user', // Set role to user for testing
           createdAt: new Date()
         };
 

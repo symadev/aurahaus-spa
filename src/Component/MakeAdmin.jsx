@@ -1,12 +1,35 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const MakeAdmin = () => {
   const [email, setEmail] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submit logic here
-    console.log({ email });
+
+    const token = localStorage.getItem('access-token'); // or wherever you store your JWT
+
+    if (!token) {
+      return Swal.fire('Unauthorized', 'You must be logged in as admin', 'error');
+    }
+
+    axios.put('http://localhost:5000/users/admin', { email }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      if (res.data.success) {
+        Swal.fire('Success', 'User promoted to admin', 'success');
+        setEmail('');
+      } else {
+        Swal.fire('Info', res.data.message || 'No changes made', 'info');
+      }
+    })
+    .catch(err => {
+      Swal.fire('Error', err.response?.data?.message || 'Failed to promote user', 'error');
+    });
   };
 
   return (
@@ -20,7 +43,7 @@ const MakeAdmin = () => {
             </label>
             <input
               type="email"
-              placeholder="jon@gamil.com"
+              placeholder="user@example.com"
               className="input input-bordered w-full"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
