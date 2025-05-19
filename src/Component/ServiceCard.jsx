@@ -30,16 +30,7 @@ const ServiceCard = () => {
       </div>
 
       {/* Centered Button Below the Grid */}
-      <div className="flex justify-center mt-10">
-        <motion.button
-          className="bg-pink-500 hover:bg-pink-600 transition text-white px-6 py-3 rounded-md font-medium"
-          whileHover={{ scale: 1.15 }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ duration: 0.2 }}
-        >
-          Explore More
-        </motion.button>
-      </div>
+ 
     </div>
 
   );
