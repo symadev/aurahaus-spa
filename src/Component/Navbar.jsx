@@ -1,7 +1,20 @@
 import { Link } from "react-router-dom";
 import image from '../assets/icons/purlor logo.png'
 
+import { useContext } from 'react';
+import { AuthContext } from '../Provider/AuthContext';
+
 const Navbar = () => {
+
+    const { user, logOut } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        console.log("Logged out successfully");
+      })
+      .catch((error) => console.error(error));
+  };
   return (
     <div className="bg-[#FFF8F5] shadow-sm navbar fixed z-10 bg-opacity-30 text-white max-w-screen-xl p-2 h-8 ">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -20,13 +33,21 @@ const Navbar = () => {
           
           <Link to="/dashboard" className="hover:text-pink-500 btn btn-ghost ">DASHBOARD</Link>
         
-          <div>
-          <Link to="/login">
-            <button className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 transition">
-              Login
+          <div className="flex items-center gap-4">
+        {user ? (
+          <>
+            <span className="text-sm">Welcome, {user.email}</span>
+            <button 
+              onClick={handleLogout} 
+              className="btn btn-sm btn-outline btn-error"
+            >
+              Logout
             </button>
-          </Link>
-        </div>
+          </>
+        ) : (
+          <Link to="/login" className="btn btn-sm btn-primary">Login</Link>
+        )}
+      </div>
         </div>
 
         {/* Login Button */}

@@ -8,7 +8,7 @@ import logo from '../assets/icons/purlor logo.png'
 
 
 const Login = () => {
-    const { signIn } = useContext(AuthContext);
+    const { signIn} = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -20,23 +20,31 @@ const Login = () => {
         const password = form.password.value;
         
 
-        signIn(email, password)
-            .then((result) => {
-                Swal.fire({
-                    title: "Login Successful",
-                    width: 600,
-                    padding: "3em",
-                    color: "#716add",
-                    background: "#fff url(/images/trees.png)",
-                    backdrop: `
-                        rgba(0,0,123,0.4)
-                        url("/images/nyan-cat.gif")
-                        left top
-                        no-repeat
-                    `
-                });
-                navigate(from, { replace: true });
-            })
+    signIn(email, password)
+  .then((result) => {
+    Swal.fire({
+      title: "Login Successful",
+      width: 600,
+      padding: "3em",
+      color: "#716add",
+      background: "#fff url(/images/trees.png)",
+      backdrop: `
+        rgba(0,0,123,0.4)
+        url("/images/nyan-cat.gif")
+        left top
+        no-repeat
+      `
+    });
+    navigate(from, { replace: true });
+  })
+  .catch((error) => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: error.message,
+    });
+  });
+
           
     };
 
